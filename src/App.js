@@ -1,6 +1,7 @@
 import "./App.css";
 import { Button } from "react-bootstrap";
 import { useState, useEffect } from "react";
+import _ from 'lodash';
 import weatherService from "./services/WeatherService";
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
     <div className="container">
       <CityDetails details={cityDetails}></CityDetails>
       {coordinates.lat} {coordinates.lon}
+      <WeatherData weatherData={weatherData}></WeatherData>
       <Button onClick={getLocation}>Get Location</Button>
     </div>
   );
@@ -46,6 +48,16 @@ function CityDetails({ details }) {
       <h1>{details.name || "Not selected"}</h1>
     </>
   );
+}
+
+function WeatherData({weatherData = []}) {
+  const weatherDataGrouped = _.groupBy(weatherData, (data) => new Date(data.dt * 1000).getDate());
+  console.log(weatherDataGrouped);
+  return (
+    <>
+
+    </>
+  )
 }
 
 export default App;
