@@ -2,6 +2,7 @@ import { useState } from "react";
 import { DateTime } from "luxon";
 import _ from "lodash";
 import { Tab, Tabs, Row, Col } from "react-bootstrap";
+import {WindData, TempMinMax, Humidity} from './WeatherDataComponents';
 
 function fromSecondsFormatted(seconds, format = DateTime.DATE_MED) {
   return DateTime.fromSeconds(seconds).toLocaleString(format);
@@ -91,30 +92,6 @@ function HourDetails({ details }) {
       <Humidity className="d-block" humidity={details.main.humidity}/>
     </Col>
   );
-}
-
-function Humidity({humidity, className = ''}) {
-  return (<span className={className}>
-    {humidity.toFixed(2)}%
-  </span>)
-}
-
-function WindData({details = {speed: 0}, className=''}) {
-  return (
-    <span className={className}>{details.speed.toFixed(2)} m/s </span>
-  );
-}
-
-function TempMinMax({ tempMin, tempMax, className }) {
-  return (
-    <span className={className ? className : ""}>
-      <Temp temp={tempMin} /> | <Temp temp={tempMax} />{" "}
-    </span>
-  );
-}
-
-function Temp({ temp }) {
-  return <span>{Math.round(temp)}°</span>;
 }
 
 
