@@ -1,5 +1,5 @@
 import "./App.css";
-import { Button, Tab, Tabs } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import _ from "lodash";
 import weatherService from "./services/WeatherService";
