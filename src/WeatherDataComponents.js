@@ -5,14 +5,14 @@ export function Humidity({ humidity, className = "" }) {
 export function WindData({ details = { speed: 0 }, className = "" }) {
   return (
     <span className={className} data-testid="wind">
-      {details && details.speed && details.speed.toFixed(2) || "-" } m/s
+      {(details?.speed?.toFixed(2)) || "-" } m/s
     </span>
   );
 }
 
-export function TempMinMax({ tempMin, tempMax, className }) {
+export function TempMinMax({ tempMin, tempMax, className = "" }) {
   return (
-    <span className={className ? className : ""}>
+    <span className={className}>
       <Temp temp={tempMin} /> | <Temp temp={tempMax} />{" "}
     </span>
   );
