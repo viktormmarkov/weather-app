@@ -12,6 +12,7 @@ function WeatherData({ weatherData = [] }) {
   const weatherDataGrouped = _.groupBy(weatherData, (data) =>
     fromSecondsFormatted(data.dt)
   );
+
   const getTabName = (tab) => {
     const firstForDay =
       weatherDataGrouped &&
@@ -30,6 +31,20 @@ function WeatherData({ weatherData = [] }) {
     </Tabs>
   );
 }
+function Temp ({temp}) {
+  return (<span>{Math.round(temp)}°</span>)
+}
+
+function TempMinMax({tempMin, tempMax, className}) {
+  return (<span className={className ? className : ''}><Temp temp={tempMin}/> | <Temp temp={tempMax}/> </span>)
+}
+
+function HourDetails({details, className}) {
+  return (<Col>
+    <h6>{DateTime.fromSeconds(details.dt).toLocaleString(DateTime.TIME_24_SIMPLE)}</h6>
+    <TempMinMax className="d-block"tempMin={details.main.temp_min} tempMax={details.main.temp_max}/>
+  </Col>)
+}
 
 function WeatherDataDetails({ weatherDataDetails }) {
   const tempMin = _(weatherDataDetails).map(d => d.main.temp_min).min();
@@ -37,15 +52,23 @@ function WeatherDataDetails({ weatherDataDetails }) {
   return (
     <>
       <Row>
-        <Col>
+        <Col md={4}>
           <h3>Daily</h3>
           <hr></hr>
-          <span>{Math.round(tempMin)}° | {Math.round(tempMax)}°</span>
+          <div>
+            <h6>&nbsp;</h6>
+            <TempMinMax tempMin={tempMin} tempMax={tempMax}/>
+          </div>
         </Col>
         <Col>
           <h3>Hourly</h3>
           <hr></hr>
+          <div>
+            <Row>
+            {weatherDataDetails.map(d => (<HourDetails className="px-1" details={d}/>))}
+          </Row>
 
+          </div>
         </Col>
       </Row>
     </>
