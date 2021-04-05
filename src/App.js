@@ -1,7 +1,7 @@
-import './App.css';
-import {Button} from 'react-bootstrap'; 
-import { useState } from 'react';
-import weatherService from './services/WeatherService';
+import "./App.css";
+import { Button } from "react-bootstrap";
+import { useState, useEffect } from "react";
+import weatherService from "./services/WeatherService";
 
 function App() {
   const [coordinates, setCoordinates] = useState({});
@@ -10,35 +10,42 @@ function App() {
 
   const getLocation = () => {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(setLocationCoordinates, (err) => {console.log(err)});
+      navigator.geolocation.getCurrentPosition(
+        setLocationCoordinates,
+        (err) => {
+          console.log(err);
+        }
+      );
     }
-  }
+  };
 
   const setLocationCoordinates = (data) => {
-    const newCoords = {lat: data.coords.latitude, lon: data.coords.longitude};
-    setCoordinates({lat: data.coords.latitude, lon: data.coords.longitude});
-    weatherService.getData(newCoords).then(response => {
-      console.log(response);
+    const newCoords = { lat: data.coords.latitude, lon: data.coords.longitude };
+    setCoordinates(newCoords);
+  };
+
+  useEffect(() => {
+    weatherService.getData(coordinates).then((response) => {
       setCityDetails(response.data.city);
       setWeatherData(response.data.list);
     });
-  }
+  }, [coordinates.lat, coordinates.lon]);
 
   return (
     <div className="container">
       <CityDetails details={cityDetails}></CityDetails>
       {coordinates.lat} {coordinates.lon}
-      <Button onClick={getLocation}>
-        Get Location
-      </Button>
+      <Button onClick={getLocation}>Get Location</Button>
     </div>
   );
 }
 
-function CityDetails({details}) {
-  return (<>
-    <h1>{details.name || 'serbia'}</h1>
-  </>)
+function CityDetails({ details }) {
+  return (
+    <>
+      <h1>{details.name || "Not selected"}</h1>
+    </>
+  );
 }
 
 export default App;
