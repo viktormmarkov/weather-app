@@ -65,7 +65,7 @@ function WeatherDataDetails({ weatherDataDetails }) {
           <div>
             <Row>
               {weatherDataDetails.map((d) => (
-                <HourDetails className="px-1" details={d} />
+                <HourDetails className="px-1" details={d} key={d.dt} />
               ))}
             </Row>
           </div>
