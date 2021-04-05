@@ -51,7 +51,7 @@ function WeatherDataDetails({ weatherDataDetails }) {
         <Col md={3} sm={12}>
           <h3>Daily</h3>
           <hr></hr>
-          <div>
+          <div className="py-2">
             <h6>&nbsp;</h6>
             <div>Min / Max Temperature: <TempMinMax tempMin={tempMin} tempMax={tempMax} /></div>
             <div>Wind: <WindData details={{speed: averageWindSpeed}}/></div>
@@ -76,7 +76,7 @@ function WeatherDataDetails({ weatherDataDetails }) {
 
 function HourDetails({ details }) {
   return (
-    <Col>
+    <Col className="weather-data-column py-2">
       <h6>
         {DateTime.fromSeconds(details.dt).toLocaleString(
           DateTime.TIME_24_SIMPLE
