@@ -1,5 +1,5 @@
 import "./App.css";
-import { Button } from "react-bootstrap";
+import { Button, Tab, Tabs } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import _ from 'lodash';
 import weatherService from "./services/WeatherService";
@@ -51,12 +51,15 @@ function CityDetails({ details }) {
 }
 
 function WeatherData({weatherData = []}) {
+  const [key, setKey] = useState(weatherData[0]);
   const weatherDataGrouped = _.groupBy(weatherData, (data) => new Date(data.dt * 1000).getDate());
+
   console.log(weatherDataGrouped);
   return (
-    <>
-
-    </>
+      <Tabs activeKey={key} onSelect={(k) => setKey(k)}>
+        {_.keys(weatherDataGrouped).map(d => (<Tab title={d} eventKey={d} key={d} >
+          {d}</Tab>))}
+      </Tabs>
   )
 }
 

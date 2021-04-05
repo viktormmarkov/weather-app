@@ -16,3 +16,10 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.tab-content > .active {
+  padding: 20px;
+  border: 1px solid;
+  border-color: #fff #dee2e6 #dee2e6 #dee2e6;
+  background-color: #fff;
+}
