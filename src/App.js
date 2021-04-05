@@ -1,8 +1,13 @@
 import "./App.css";
 import { Button, Tab, Tabs } from "react-bootstrap";
 import { useState, useEffect } from "react";
-import _ from 'lodash';
+import _ from "lodash";
 import weatherService from "./services/WeatherService";
+import { DateTime } from "luxon";
+
+function fromSecondsFormatted(seconds, format = DateTime.DATE_MED) {
+  return DateTime.fromSeconds(seconds).toLocaleString(format)
+}
 
 function App() {
   const [coordinates, setCoordinates] = useState({});
@@ -50,17 +55,22 @@ function CityDetails({ details }) {
   );
 }
 
-function WeatherData({weatherData = []}) {
+function WeatherData({ weatherData = [] }) {
   const [key, setKey] = useState(weatherData[0]);
-  const weatherDataGrouped = _.groupBy(weatherData, (data) => new Date(data.dt * 1000).getDate());
+  const weatherDataGrouped = _.groupBy(weatherData, (data) => fromSecondsFormatted(data.dt));
+  const getTabName = (tab) => {
+    const firstForDay = weatherDataGrouped && weatherDataGrouped[tab] && weatherDataGrouped[tab][0];
+    return firstForDay ? fromSecondsFormatted(firstForDay.dt): tab;
+  };
 
-  console.log(weatherDataGrouped);
   return (
-      <Tabs activeKey={key} onSelect={(k) => setKey(k)}>
-        {_.keys(weatherDataGrouped).map(d => (<Tab title={d} eventKey={d} key={d} >
-          {d}</Tab>))}
-      </Tabs>
-  )
+    <Tabs activeKey={key} onSelect={(k) => setKey(k)}>
+      {_.keys(weatherDataGrouped).map((d) => (
+        <Tab title={getTabName(d)} eventKey={d} key={d}>
+        </Tab>
+      ))}
+    </Tabs>
+  );
 }
 
 export default App;
