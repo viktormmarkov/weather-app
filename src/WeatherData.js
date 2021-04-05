@@ -33,34 +33,6 @@ function WeatherData({ weatherData = [] }) {
     </Tabs>
   );
 }
-function Temp({ temp }) {
-  return <span>{Math.round(temp)}°</span>;
-}
-
-function TempMinMax({ tempMin, tempMax, className }) {
-  return (
-    <span className={className ? className : ""}>
-      <Temp temp={tempMin} /> | <Temp temp={tempMax} />{" "}
-    </span>
-  );
-}
-
-function HourDetails({ details, className }) {
-  return (
-    <Col>
-      <h6>
-        {DateTime.fromSeconds(details.dt).toLocaleString(
-          DateTime.TIME_24_SIMPLE
-        )}
-      </h6>
-      <TempMinMax
-        className="d-block"
-        tempMin={details.main.temp_min}
-        tempMax={details.main.temp_max}
-      />
-    </Col>
-  );
-}
 
 function WeatherDataDetails({ weatherDataDetails }) {
   const tempMin = _(weatherDataDetails)
@@ -69,15 +41,21 @@ function WeatherDataDetails({ weatherDataDetails }) {
   const tempMax = _(weatherDataDetails)
     .map((d) => d.main.temp_max)
     .max();
+  const dataCount = weatherDataDetails.length;
+  const averageWindSpeed = _(weatherDataDetails).map((d) => d.wind.speed).sum() / dataCount;
+  const averageHumidity = _(weatherDataDetails).map((d) => d.main.humidity).sum() / dataCount;
+
   return (
     <>
       <Row>
-        <Col md={4}>
+        <Col md={3} sm={12}>
           <h3>Daily</h3>
           <hr></hr>
           <div>
             <h6>&nbsp;</h6>
-            <TempMinMax tempMin={tempMin} tempMax={tempMax} />
+            <div>Min / Max Temperature: <TempMinMax tempMin={tempMin} tempMax={tempMax} /></div>
+            <div>Wind: <WindData details={{speed: averageWindSpeed}}/></div>
+            <div>Humidity: <Humidity humidity={averageHumidity}/></div>
           </div>
         </Col>
         <Col>
@@ -95,5 +73,49 @@ function WeatherDataDetails({ weatherDataDetails }) {
     </>
   );
 }
+
+function HourDetails({ details }) {
+  return (
+    <Col>
+      <h6>
+        {DateTime.fromSeconds(details.dt).toLocaleString(
+          DateTime.TIME_24_SIMPLE
+        )}
+      </h6>
+      <TempMinMax
+        className="d-block"
+        tempMin={details.main.temp_max}
+        tempMax={details.main.temp_min}
+      />
+      <WindData className="d-block" details={details.wind}/>
+      <Humidity className="d-block" humidity={details.main.humidity}/>
+    </Col>
+  );
+}
+
+function Humidity({humidity, className = ''}) {
+  return (<span className={className}>
+    {humidity.toFixed(2)}%
+  </span>)
+}
+
+function WindData({details = {speed: 0}, className=''}) {
+  return (
+    <span className={className}>{details.speed.toFixed(2)} m/s </span>
+  );
+}
+
+function TempMinMax({ tempMin, tempMax, className }) {
+  return (
+    <span className={className ? className : ""}>
+      <Temp temp={tempMin} /> | <Temp temp={tempMax} />{" "}
+    </span>
+  );
+}
+
+function Temp({ temp }) {
+  return <span>{Math.round(temp)}°</span>;
+}
+
 
 export default WeatherData;
