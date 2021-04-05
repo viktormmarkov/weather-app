@@ -1,4 +1,6 @@
 import axios  from "axios";
+import { mockData } from './WeatherService.mock.data';
+
 const API_BASE = "http://api.openweathermap.org/data";
 const API_VERSION = "2.5";
 const axiosInstance = axios.create({
@@ -14,6 +16,7 @@ class WeatherService {
   }
 
   getData = (coordinates) => {
+    return Promise.resolve({data:mockData});
     if (coordinates.lat && coordinates.lon) {
       return axiosInstance.get(`/forecast`, {
         params: { ...this.defaultServiceParams, ...coordinates },
