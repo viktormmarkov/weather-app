@@ -1,3 +1,11 @@
+# TODO: 
+
+1. Remove the API key from the repository
+2. Implement loading indicator
+3. More exhaustive tests
+4. Better design (add more color, weather icons etc)
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
