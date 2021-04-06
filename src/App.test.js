@@ -38,7 +38,7 @@ test("renders learn react link", async () => {
   await screen.queryAllByTestId("wind", {});
   const rowValues = await screen.findByTestId("city_name");
 
-  expect(rowValues.innerHTML).toEqual("Belgrade");
+  expect(rowValues.innerHTML).toEqual("Sofia");
   expect(axios.get).toHaveBeenCalledTimes(1);
   expect(global.navigator.geolocation.getCurrentPosition).toHaveBeenCalledTimes(1);
 });
