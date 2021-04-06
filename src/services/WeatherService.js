@@ -1,5 +1,5 @@
 import axios  from "axios";
-import { mockData } from './WeatherService.mock.data';
+// import { mockData } from './WeatherService.mock.data';
 
 const API_BASE = "http://api.openweathermap.org/data";
 const API_VERSION = "2.5";

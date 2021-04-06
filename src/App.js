@@ -1,7 +1,6 @@
 import "./App.css";
 import { Button } from "react-bootstrap";
 import { useState, useEffect } from "react";
-import _ from "lodash";
 import weatherService from "./services/WeatherService";
 import WeatherData from './WeatherData';
 
@@ -32,7 +31,7 @@ function App() {
       setCityDetails(response.data.city);
       setWeatherData(response.data.list);
     }, (err) => {console.log('errr')});
-  }, [coordinates.lat, coordinates.lon]);
+  }, [coordinates, coordinates.lat, coordinates.lon]);
 
 
   return (
