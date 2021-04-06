@@ -3,10 +3,7 @@ import { mockData } from './WeatherService.mock.data';
 
 const API_BASE = "http://api.openweathermap.org/data";
 const API_VERSION = "2.5";
-const axiosInstance = axios.create({
-  baseURL: `${API_BASE}/${API_VERSION}`,
-});
-
+const API_URL = `${API_BASE}/${API_VERSION}`;
 class WeatherService {
   constructor() {
     this.defaultServiceParams = {
@@ -15,11 +12,11 @@ class WeatherService {
     };
   }
 
-  getData = (coordinates) => {
-    return Promise.resolve({data:mockData});
-    if (coordinates.lat && coordinates.lon) {
-      return axiosInstance.get(`/forecast`, {
-        params: { ...this.defaultServiceParams, ...coordinates },
+  getData = ({lat, lon}) => {
+    // return Promise.resolve({data:mockData});
+    if (lat !== undefined && lon !== undefined) {
+      return axios.get(`${API_URL}/forecast`, {
+        params: { ...this.defaultServiceParams, lat, lon },
       });
     } else {
       return Promise.reject("No data provided");
