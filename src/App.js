@@ -7,8 +7,8 @@ import WeatherData from './WeatherData';
 
 
 function App() {
-  const [coordinates, setCoordinates] = useState({});
-  const [cityDetails, setCityDetails] = useState({});
+  const [coordinates, setCoordinates] = useState({lat: undefined, lon:undefined});
+  const [cityDetails, setCityDetails] = useState({name: 'Not selected'});
   const [weatherData, setWeatherData] = useState([]);
 
   const getLocation = () => {
@@ -16,7 +16,7 @@ function App() {
       navigator.geolocation.getCurrentPosition(
         setLocationCoordinates,
         (err) => {
-          console.log(err);
+          console.log('Something went wrong with geolocation');
         }
       );
     }
@@ -31,15 +31,16 @@ function App() {
     weatherService.getData(coordinates).then((response) => {
       setCityDetails(response.data.city);
       setWeatherData(response.data.list);
-    });
+    }, (err) => {console.log('errr')});
   }, [coordinates.lat, coordinates.lon]);
+
 
   return (
     <div className="container">
       <CityDetails details={cityDetails}></CityDetails>
       {coordinates.lat} {coordinates.lon}
       <WeatherData weatherData={weatherData}></WeatherData>
-      <Button onClick={getLocation}>Get Location</Button>
+      <Button onClick={getLocation} data-testid="get_location_button">Get Location</Button>
     </div>
   );
 }
@@ -47,7 +48,7 @@ function App() {
 function CityDetails({ details }) {
   return (
     <>
-      <h1>{details.name || "Not selected"}</h1>
+      <h1 data-testid="city_name">{details.name || "Not selected"}</h1>
     </>
   );
 }
