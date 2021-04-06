@@ -24,8 +24,8 @@ function WeatherData({ weatherData = [] }) {
 
   return (
     <Tabs activeKey={key} onSelect={(k) => setKey(k)}>
-      {_.keys(weatherDataGrouped).map((d) => (
-        <Tab title={getTabName(d)} eventKey={d} key={d}>
+      {_.keys(weatherDataGrouped).map((d, i) => (
+        <Tab title={getTabName(d)} eventKey={d} key={d} data-testid={`tab-${i}`}>
           <WeatherDataDetails
             weatherDataDetails={weatherDataGrouped[d]}
           ></WeatherDataDetails>
@@ -64,8 +64,8 @@ function WeatherDataDetails({ weatherDataDetails }) {
           <hr></hr>
           <div>
             <Row>
-              {weatherDataDetails.map((d) => (
-                <HourDetails className="px-1" details={d} key={d.dt} />
+              {weatherDataDetails.map((d,i) => (
+                <HourDetails details={d} key={d.dt} />
               ))}
             </Row>
           </div>
@@ -77,7 +77,7 @@ function WeatherDataDetails({ weatherDataDetails }) {
 
 function HourDetails({ details }) {
   return (
-    <Col className="weather-data-column py-2">
+    <Col className="weather-data-column py-2" data-testid={`hour-details`}>
       <h6>
         {DateTime.fromSeconds(details.dt).toLocaleString(
           DateTime.TIME_24_SIMPLE

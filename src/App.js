@@ -38,7 +38,6 @@ function App() {
   return (
     <div className="container">
       <CityDetails details={cityDetails}></CityDetails>
-      {coordinates.lat} {coordinates.lon}
       <WeatherData weatherData={weatherData}></WeatherData>
       <Button onClick={getLocation} data-testid="get_location_button">Get Location</Button>
     </div>
@@ -49,6 +48,7 @@ function CityDetails({ details }) {
   return (
     <>
       <h1 data-testid="city_name">{details.name || "Not selected"}</h1>
+      <p><span data-testid="city_lat">{details?.coord?.lat}</span> <span data-testid="city_lon">{details?.coord?.lon}</span></p>
     </>
   );
 }
